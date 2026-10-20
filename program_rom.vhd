@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Module : program_rom
--- Stores the Set 0 test program (16 locations, 12 bits each).
+-- Stores the Set 9 test program (16 locations, 12 bits each).
 -- Instruction = 4-bit opcode & 8-bit operand.
 ----------------------------------------------------------------------------------
 library IEEE;
@@ -25,28 +25,28 @@ architecture Behavioral of program_rom is
 
     -- the program (unused addresses hold 000 = NOP)
     constant ROM : rom_array := (
-			-- LDI 0xA5
-        0 => x"1A5",
-        -- AND 0x5A
-        1 => x"45A",
+        -- LDI 0xFF
+        0 => x"1FF",
+        -- NOT
+        1 => x"700",
         -- JZ 0x05
         2 => x"C05",
-        -- ADD 0x01
-        3 => x"201",
-        -- ADD 0x01
-        4 => x"201",
-		  -- NOT
-        5 => x"700",
-        -- AND 0x0F
-        6 => x"40F",
+        -- ADD 0x77
+        3 => x"277",
+        -- ADD 0x77
+        4 => x"277",
+        -- ADD 0x11
+        5 => x"211",
+        -- SHL
+        6 => x"800",
         -- JZ 0x00
         7 => x"C00",
-        -- ADD 0x01
-        8 => x"201",
+        -- SHL
+        8 => x"800",
         -- everything else is NOP
         others => x"000"
-	);
-	
+    );
+
 begin
 
     -- read the word at ADDR (no clock needed)
