@@ -52,4 +52,4 @@ begin
 	 -- send the address out
     Q <= STD_LOGIC_VECTOR(pc_reg);
 
-end Behavioral;
+end Behavioral;
