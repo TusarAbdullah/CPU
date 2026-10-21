@@ -1,11 +1,12 @@
 ----------------------------------------------------------------------------------
 -- Module : alu
--- 8-bit combinational ALU: LDI, ADD, SHL, NOT.
+-- 8-bit combinational ALU for Set 9: LDI, ADD, NOT, SHL.
 -- LDI is done by passing operand B straight through, so no extra mux is needed.
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+
 
 entity alu is
     Port (
@@ -37,7 +38,7 @@ begin
             -- ADD: A + B (carry is dropped)
             when "01" =>
                 res <= STD_LOGIC_VECTOR(unsigned(A) + unsigned(B));
-            -- SHL: shift A left by 1, a 0 enters at the LSB, the old MSB is dropped
+            -- SHL: shift A left by 1, a 0 enters the LSB
             when "10" =>
                 res <= A(6 downto 0) & '0';
             -- NOT: flip every bit of A
