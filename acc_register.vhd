@@ -44,4 +44,4 @@ begin
     -- send the stored value out
     Q <= acc_reg;
 
-end Behavioral;
+end Behavioral;
