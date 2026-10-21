@@ -46,4 +46,4 @@ begin
 	 -- send the flag out
     Q <= z_reg;
 
-end Behavioral;
+end Behavioral;
