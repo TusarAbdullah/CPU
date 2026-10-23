@@ -1,7 +1,7 @@
 ----------------------------------------------------------------------------------
 -- Module : control_unit
 -- Reads the opcode and tells the other blocks what to do.
--- Set 0 instructions: LDI, ADD, AND, NOT, JZ. Any other opcode is a NOP.
+-- Set 9 instructions: LDI, ADD, NOT, SHL, JZ. Any other opcode is a NOP.
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -12,8 +12,8 @@ entity control_unit is
         OPCODE  : in  STD_LOGIC_VECTOR(3 downto 0);
         -- current zero flag (needed to decide if JZ jumps)
         Z       : in  STD_LOGIC;
-			
-		  -- ALU operation: 00 = LDI, 01 = ADD, 10 = AND, 11 = NOT
+
+        -- ALU operation: 00 = LDI, 01 = ADD, 10 = SHL, 11 = NOT
         ALU_OP  : out STD_LOGIC_VECTOR(1 downto 0);
         -- 1 = write the ALU result into ACC
         ACC_EN  : out STD_LOGIC;
@@ -34,8 +34,8 @@ begin
         ACC_EN  <= '0';
         Z_EN    <= '0';
         PC_LOAD <= '0';
-			
-		  case OPCODE is
+
+        case OPCODE is
             -- LDI: ACC <- operand
             when "0001" =>
                 ALU_OP <= "00";
@@ -43,20 +43,20 @@ begin
                 Z_EN   <= '1';
 
             -- ADD: ACC <- ACC + operand
-				when "0010" =>
+            when "0010" =>
                 ALU_OP <= "01";
                 ACC_EN <= '1';
                 Z_EN   <= '1';
 
-            -- AND: ACC <- ACC AND operand
-				when "0100" =>
-                ALU_OP <= "10";
+            -- NOT: ACC <- NOT ACC
+            when "0111" =>
+                ALU_OP <= "11";
                 ACC_EN <= '1';
                 Z_EN   <= '1';
 
-            -- NOT: ACC <- NOT ACC
-				when "0111" =>
-                ALU_OP <= "11";
+            -- SHL: ACC <- ACC shifted left by 1
+            when "1000" =>
+                ALU_OP <= "10";
                 ACC_EN <= '1';
                 Z_EN   <= '1';
 
@@ -65,7 +65,7 @@ begin
                 PC_LOAD <= Z;
 
             -- any other opcode: NOP
-				when others =>
+            when others =>
                 null;
         end case;
     end process;
