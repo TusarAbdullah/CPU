@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Module : tb_cpu (testbench)
--- Applies RESET for one rising edge, then runs the Set 0 program
+-- Applies RESET for one rising edge, then runs the Set 9 program
 -- and checks ACC, Z and PC after every clock against Appendix B.
 ----------------------------------------------------------------------------------
 library IEEE;
@@ -73,43 +73,40 @@ begin
         RESET <= '0';
 			
 			
-		  -- cycle 1: LDI 0xA5
+        -- cycle 1: LDI 0xFF
         wait until rising_edge(CLK);
         wait for 1 ns;
-        check(x"A5", '0', "0001", "LDI 0xA5");
+        check(x"FF", '0', "0001", "LDI 0xFF");
 
-        -- cycle 2: AND 0x5A
+        -- cycle 2: NOT
         wait until rising_edge(CLK);
         wait for 1 ns;
-        check(x"00", '1', "0010", "AND 0x5A");
-		  
-		  
-		  -- cycle 3: JZ 0x05 (taken, next PC = 5)
+        check(x"00", '1', "0010", "NOT");
+
+        -- cycle 3: JZ 0x05 (taken, next PC = 5)
         wait until rising_edge(CLK);
         wait for 1 ns;
         check(x"00", '1', "0101", "JZ 0x05 taken");
 
-        -- cycle 4: NOT
+        -- cycle 4: ADD 0x11
         wait until rising_edge(CLK);
         wait for 1 ns;
-        check(x"FF", '0', "0110", "NOT");
-		  
-		  
-		  -- cycle 5: AND 0x0F
+        check(x"11", '0', "0110", "ADD 0x11");
+
+        -- cycle 5: SHL
         wait until rising_edge(CLK);
         wait for 1 ns;
-        check(x"0F", '0', "0111", "AND 0x0F");
+        check(x"22", '0', "0111", "SHL (1st)");
 
         -- cycle 6: JZ 0x00 (not taken, next PC = 8)
         wait until rising_edge(CLK);
         wait for 1 ns;
-        check(x"0F", '0', "1000", "JZ 0x00 not taken");
+        check(x"22", '0', "1000", "JZ 0x00 not taken");
 
-
-		  -- cycle 7: ADD 0x01
+        -- cycle 7: SHL
         wait until rising_edge(CLK);
         wait for 1 ns;
-        check(x"10", '0', "1001", "ADD 0x01");
+        check(x"44", '0', "1001", "SHL (2nd)");
 
         -- last instruction done
         report "Test finished. If no FAILED message above, all checks passed."
@@ -118,4 +115,4 @@ begin
     end process;
 
 end Behavioral;
-		  
+		  
