@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Module : cpu_top
--- Top level of the 8-bit accumulator CPU (Set 0).
+-- Top level of the 8-bit accumulator CPU (Set 9).
 -- Only connects the blocks together, there is no logic here.
 ----------------------------------------------------------------------------------
 library IEEE;
@@ -125,4 +125,4 @@ begin
     PC_OUT <= pc_value;
 
 end Structural;
-	 
+	 
